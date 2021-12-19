@@ -6,3 +6,7 @@ void carrier::addTask(const ticket &task) {
 
 }
 
+const vector<ticket> &carrier::getTasks() const {
+    return tasks;
+}
+

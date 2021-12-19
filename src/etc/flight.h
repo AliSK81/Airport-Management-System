@@ -4,9 +4,11 @@
 #include "string"
 #include "vector"
 #include "../people/pilot.h"
-#include "../people/host.h"
+#include "../people/passenger.h"
 
 using namespace std;
+
+class host;
 
 class flight {
 private:
@@ -18,13 +20,14 @@ private:
     string flightTime;
     int numOfPassengers;
     pilot pilot;
-    vector<host> hosts;
+    vector<host*> hosts;
+    vector<passenger> passengers;
     double ticketsIncome;
 
 public:
     flight(const string &flightSerial, const string &planeSerial, const string &origin, const string &dest,
-           const string &flightDate, const string &flightTime, int numOfPassengers, const pilot &pilot,
-           const vector<host> &hosts, double ticketsIncome);
+           const string &flightDate, const string &flightTime, int numOfPassengers, const class pilot &pilot,
+           double ticketsIncome);
 
     const string &getFlightSerial() const;
 
@@ -40,12 +43,15 @@ public:
 
     int getNumOfPassengers() const;
 
-    const pilot &getPilot() const;
+    const class pilot &getPilot() const;
 
-    const vector<host> &getHosts() const;
+    const vector<host *> &getHosts() const;
+
+    const vector<passenger> &getPassengers() const;
 
     double getTicketsIncome() const;
 
+    static bool compareSerial(const flight &f1, const flight &f2);
 };
 
 

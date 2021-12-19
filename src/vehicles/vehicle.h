@@ -16,6 +16,7 @@ public:
     const string &getSerial() const;
 
     const string &getBuildDate() const;
+
 };
 
 

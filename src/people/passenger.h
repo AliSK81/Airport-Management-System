@@ -2,8 +2,8 @@
 #define AIRPORTMANAGEMENTSYSTEM_PASSENGER_H
 
 #include "person.h"
-
-class passenger : person {
+class flight;
+class passenger : public person {
 private:
     string fatherName;
 

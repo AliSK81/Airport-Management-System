@@ -9,3 +9,7 @@ const string &vehicle::getSerial() const {
 const string &vehicle::getBuildDate() const {
     return buildDate;
 }
+
+
+
+

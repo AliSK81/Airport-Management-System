@@ -2,8 +2,8 @@
 #define AIRPORTMANAGEMENTSYSTEM_PILOT_H
 
 #include "worker.h"
-
-class pilot : worker {
+class flight;
+class pilot : public worker {
 private:
     int rank;
 

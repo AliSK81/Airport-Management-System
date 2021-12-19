@@ -14,6 +14,7 @@ public:
 
     void addTask(const ticket &task);
 
+    const vector<ticket> &getTasks() const;
 
 };
 

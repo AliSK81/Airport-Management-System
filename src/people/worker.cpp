@@ -11,12 +11,14 @@ const string &worker::getEmployDate() const {
     return employDate;
 }
 
-const list<flight> &worker::getTasks() const {
+
+const vector<flight *> &worker::getTasks() const {
     return tasks;
 }
 
 void worker::addTask(const flight &task) {
 
 }
+
 
 
