@@ -7,15 +7,15 @@
 
 class carrier : public vehicle {
 private:
-    vector<ticket> tasks;
+    vector<ticket*> tasks;
 
 public:
     carrier(const string &serial, const string &buildDate);
 
-    void addTask(const ticket &task);
+    void addTask(ticket *task);
 
-    const vector<ticket> &getTasks() const;
 
+    const vector<ticket *> &getTasks() const;
 };
 
 

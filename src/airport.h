@@ -14,30 +14,30 @@ using namespace std;
 
 class airport {
 private:
-    vector<pilot> pilots;
-    vector<host> hosts;
-    vector<passenger> passengers;
-    vector<ticket> tickets;
-    vector<flight> flights;
-    vector<carrier> carriers;
-    vector<plane> planes;
+    vector<pilot *> pilots;
+    vector<host *> hosts;
+    vector<passenger *> passengers;
+    vector<ticket *> tickets;
+    vector<flight *> flights;
+    vector<carrier *> carriers;
+    vector<plane *> planes;
 
 
 public:
 
-    void addPilot(const pilot &p);
+    void addPilot(pilot *p);
 
-    void addHost(const host &h);
+    void addHost(host *h);
 
-    void addPassenger(const passenger &p);
+    void addPassenger(passenger *p);
 
-    void addTicket(const ticket &t);
+    void addTicket(ticket *t);
 
-    void addFlight(const flight &f);
+    void addFlight(flight *f);
 
-    void addCarrier(const carrier &c);
+    void addCarrier(carrier *c);
 
-    void addPlane(const plane &p);
+    void addPlane(plane *p);
 
     // --------------------------------
 
@@ -47,7 +47,7 @@ public:
 
 //    void removePassenger(const passenger &p);
 
-    bool removeTicket(const string& flightSerial);
+    bool removeTicket(const string &passengerId);
 
     bool removeFlight(string &flightSerial);
 
@@ -73,11 +73,24 @@ public:
 
     // --------------------------
 
-    flight* getFlight(string &serial);
+    flight *getFlight(string &serial);
 
-    pilot* getPilot(string &pCode);
+    pilot *getPilot(const string &pCode);
 
 
+    host *getHost(const string &pCode);
+
+    passenger *getPassenger(string &id);
+
+    plane *getPlane(const string &serial);
+
+    ticket *getTicket(const string &passengerId);
+
+    carrier *getCarrier(const string &serial);
+
+
+    template<typename T>
+    static void removeElement(vector<T> &v, T e);
 };
 
 

@@ -16,8 +16,8 @@ const vector<flight *> &worker::getTasks() const {
     return tasks;
 }
 
-void worker::addTask(const flight &task) {
-
+void worker::addTask(flight *task) {
+    tasks.push_back(task);
 }
 
 

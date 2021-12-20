@@ -19,7 +19,7 @@ public:
 
     const vector<flight *> &getTasks() const;
 
-    void addTask(const flight &task);
+    void addTask(flight *task) ;
 
     const string &getPCode() const;
 };

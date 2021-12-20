@@ -8,14 +8,18 @@
 class plane : public vehicle {
 private:
     int numOfSeats;
-    vector<flight> flights;
+    vector<flight*> flights;
 
 public:
     plane(const string &serial, const string &buildDate, int numOfSeats);
 
     int getNumOfSeats() const;
 
-    const vector<flight> &getTasks() const;
+    const vector<flight *> &getTasks() const;
+
+    void addFlight(flight *flight);
+
+    bool removeFlight(string &serial);
 };
 
 

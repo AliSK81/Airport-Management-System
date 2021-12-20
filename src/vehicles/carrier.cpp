@@ -2,11 +2,12 @@
 
 carrier::carrier(const string &serial, const string &buildDate) : vehicle(serial, buildDate) {}
 
-void carrier::addTask(const ticket &task) {
-
+void carrier::addTask(ticket *task) {
+    tasks.push_back(task);
 }
 
-const vector<ticket> &carrier::getTasks() const {
+const vector<ticket *> &carrier::getTasks() const {
     return tasks;
 }
+
 

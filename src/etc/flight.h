@@ -19,15 +19,14 @@ private:
     string flightDate;
     string flightTime;
     int numOfPassengers;
-    pilot pilot;
+    pilot* pilot;
     vector<host*> hosts;
-    vector<passenger> passengers;
+    vector<passenger*> passengers;
     double ticketsIncome;
 
 public:
     flight(const string &flightSerial, const string &planeSerial, const string &origin, const string &dest,
-           const string &flightDate, const string &flightTime, int numOfPassengers, const class pilot &pilot,
-           double ticketsIncome);
+           const string &flightDate, const string &flightTime, class pilot* pilot);
 
     const string &getFlightSerial() const;
 
@@ -43,15 +42,23 @@ public:
 
     int getNumOfPassengers() const;
 
-    const class pilot &getPilot() const;
+    class pilot * getPilot();
 
     const vector<host *> &getHosts() const;
 
-    const vector<passenger> &getPassengers() const;
+    vector<struct passenger *> getPassengers() const;
 
     double getTicketsIncome() const;
 
-    static bool compareSerial(const flight &f1, const flight &f2);
+    static bool compareSerial(const flight *f1, const flight *f2);
+
+    void addHost(host* h);
+
+    void addPassenger(passenger* p);
+
+
+    void setTicketsIncome(double ticketsIncome);
+
 };
 
 
