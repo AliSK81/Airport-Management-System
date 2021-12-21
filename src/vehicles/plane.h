@@ -19,7 +19,7 @@ public:
 
     void addFlight(flight *flight);
 
-    bool removeFlight(string &serial);
+    void removeFlight(flight *f);
 
     void printInfo() const;
 

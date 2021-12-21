@@ -1,5 +1,6 @@
 #include <iostream>
 #include "plane.h"
+#include "../airport.h"
 
 plane::plane(const string &serial, const string &buildDate, int numOfSeats) : vehicle(serial, buildDate),
                                                                               numOfSeats(numOfSeats) {}
@@ -12,14 +13,8 @@ void plane::addFlight(flight *flight) {
     flights.push_back(flight);
 }
 
-bool plane::removeFlight(string &serial) {
-    for (auto f = flights.begin(); f != flights.end(); f++) {
-        if ((*f)->getFlightSerial() == serial) {
-            flights.erase(f, f + 1);
-            return true;
-        }
-    }
-    return false;
+void plane::removeFlight(flight *f) {
+    airport::removeElement(flights, f);
 }
 
 const vector<flight *> &plane::getTasks() const {

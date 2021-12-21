@@ -5,7 +5,6 @@
 #include "etc/ticket.h"
 #include <sstream>
 
-
 using namespace std;
 
 airport *ap;
@@ -31,10 +30,10 @@ int main() {
 
         cout << "Menu:" << endl;
 
-        cout << "1) Add new object" << endl;
-        cout << "2) Remove objects" << endl;
-        cout << "3) View reports" << endl;
-        cout << "4) Edit information" << endl;
+        cout << "1) Add item to airport" << endl;
+        cout << "2) Remove from airport" << endl;
+        cout << "3) View airport reports" << endl;
+        cout << "4) Edit items information" << endl;
         cout << "5) Exit system" << endl;
 
         int act;
@@ -238,7 +237,7 @@ void addPilot() {
 
 void addHost() {
     cout << "Enter blow info seperated by space: " << endl;
-    cout << "id, name, family, birthDate, pCode, employDate" << endl;
+    cout << "melli-code, name, family, birthDate, personnel-code, employDate" << endl;
     string id, name, family, birthDate, pCode, employDate;
     cin >> id >> name >> family >> birthDate >> pCode >> employDate;
     ap->addHost(new host(id, name, family, birthDate, pCode, employDate));
@@ -247,11 +246,12 @@ void addHost() {
 
 void addTicket() {
     cout << "Enter blow info seperated by space: " << endl;
-    cout << "flightSerial, planeSerial, pilotPId, carrierId, ticketPrice, profitRate" << endl;
-    string flightSerial, passengerName, passengerFamily, passengerId,
-            passengerFatherName, passengerBirthDate, planeSerial, pilotPId, carrierId;
+    cout << "flightSerial, carrierId, ticketPrice, profitRate" << endl;
+    string flightSerial,
+            passengerName, passengerFamily, passengerId, passengerFatherName, passengerBirthDate,
+            carrierId;
     double ticketPrice, profitRate;
-    cin >> flightSerial >> planeSerial >> pilotPId >> carrierId >> ticketPrice >> profitRate;
+    cin >> flightSerial >> carrierId >> ticketPrice >> profitRate;
 
     flight *f = ap->getFlight(flightSerial);
     if (f == nullptr) {
@@ -263,30 +263,29 @@ void addTicket() {
         cout << "wrong carrierId" << endl;
         return;
     }
-    f->setTicketsIncome(f->getTicketsIncome() + ticketPrice);
-
-    auto *t = new ticket(flightSerial, f->getFlightDate(), f->getFlightTime(),
-                         f->getOrigin(), f->getDest(), passengerName, passengerFamily,
-                         passengerId, planeSerial, pilotPId, carrierId, ticketPrice, profitRate);
-
-    c->addTask(t);
-    ap->addTicket(t);
-
     cout << "Enter blow info seperated by space: " << endl;
     cout << "passengerName, passengerFamily, passengerId, passengerFatherName, passengerBirthDate" << endl;
     cin >> passengerName >> passengerFamily >> passengerId >> passengerFatherName >> passengerBirthDate;
 
     passenger *p = new passenger(passengerId, passengerName, passengerFamily,
                                  passengerBirthDate, passengerFatherName);
+
+    f->setTicketsIncome(f->getTicketsIncome() + ticketPrice);
+
+    auto *t = new ticket(flightSerial, f->getFlightDate(), f->getFlightTime(),
+                         f->getOrigin(), f->getDest(), passengerName, passengerFamily,
+                         passengerId, f->getPlaneSerial(), f->getPilot()->getId(), carrierId, ticketPrice, profitRate);
+
+    c->addTask(t);
+    ap->addTicket(t);
     f->addPassenger(p);
     ap->addPassenger(p);
-
     cout << "new ticket added" << endl;
 }
 
 void addFlight() {
     cout << "Enter blow info seperated by space: " << endl;
-    cout << "flightSerial,  planeSerial, origin, dest,flightDate, flightTime, pilot personnel-code" << endl;
+    cout << "flightSerial, planeSerial, origin, dest, flightDate, flightTime, pilot personnel-code" << endl;
     string flightSerial, planeSerial, origin, dest, flightDate, flightTime, pilot_pCode;
     cin >> flightSerial >> planeSerial >> origin >> dest >> flightDate >> flightTime >> pilot_pCode;
 
@@ -304,7 +303,8 @@ void addFlight() {
 
     string line;
     cout << "Enter hosts [personnel-code] seperated by space:" << endl;
-    cin >> line;
+    cin.ignore();
+    getline(cin, line);
     stringstream hid(line);
     istream_iterator<string> begin(hid);
     istream_iterator<string> end;
@@ -315,7 +315,7 @@ void addFlight() {
             f->addHost(h);
             h->addTask(f);
         } else {
-            cout << "a host not found (personnel-code: " + pCode + ")";
+            cout << "a host not found (personnel-code: " + pCode + ")\n";
         }
     }
     pl->addFlight(f);
@@ -348,44 +348,80 @@ void addPlane() {
 
 void removePilot() {
     string pCode;
-    cout << "Enter personnel code: ";
+    cout << "Enter personnel-code: ";
     cin >> pCode;
-    if (ap->removePilot(pCode)) cout << "pilot removed\n"; else cout << "wrong id\n";
+    pilot *p = ap->getPilot(pCode);
+    if (p != nullptr) {
+        ap->removePilot(p);
+        cout << "pilot removed\n";
+    } else {
+        cout << "wrong id\n";
+    }
 }
 
 void removeHost() {
     string pCode;
-    cout << "Enter personnel code: ";
+    cout << "Enter personnel-code: ";
     cin >> pCode;
-    if (ap->removeHost(pCode)) cout << "host removed\n"; else cout << "wrong id\n";
+    host *h = ap->getHost(pCode);
+    if (h != nullptr) {
+        ap->removeHost(h);
+        cout << "host removed\n";
+    } else {
+        cout << "wrong id\n";
+    }
 }
 
 void removeCarrier() {
     string serial;
     cout << "Enter serial: ";
     cin >> serial;
-    if (ap->removeCarrier(serial)) cout << "carrier removed\n"; else cout << "wrong id\n";
+    carrier *c = ap->getCarrier(serial);
+    if (c != nullptr) {
+        ap->removeCarrier(c);
+        cout << "carrier removed\n";
+    } else {
+        cout << "wrong id\n";
+    }
 }
 
 void removePlane() {
     string serial;
     cout << "Enter serial: ";
     cin >> serial;
-    if (ap->removePlane(serial)) cout << "plane removed\n"; else cout << "wrong id\n";
+    plane *p = ap->getPlane(serial);
+    if (p != nullptr) {
+        ap->removePlane(p);
+        cout << "plane removed\n";
+    } else {
+        cout << "wrong id\n";
+    }
 }
 
 void removeTicket() {
     string passengerId;
     cout << "Enter passenger id: ";
     cin >> passengerId;
-    if (ap->removeTicket(passengerId)) cout << "ticket removed\n"; else cout << "wrong id\n";
+    ticket *t = ap->getTicket(passengerId);
+    if (t != nullptr) {
+        ap->removeTicket(t);
+        cout << "ticket removed\n";
+    } else {
+        cout << "wrong id\n";
+    }
 }
 
 void removeFlight() {
     string flightSerial;
     cout << "Enter flight serial: ";
     cin >> flightSerial;
-    if (ap->removeFlight(flightSerial)) cout << "flight removed\n"; else cout << "wrong id\n";
+    flight *f = ap->getFlight(flightSerial);
+    if (f != nullptr) {
+        ap->removeFlight(f);
+        cout << "flight removed\n";
+    } else {
+        cout << "wrong id\n";
+    }
 }
 
 // view ----------------------------------------------------------------------------------------------------------------
@@ -486,7 +522,20 @@ void editFlight() {
     string flightSerial;
     cout << "Enter flight serial: ";
     cin >> flightSerial;
-    if (ap->removeFlight(flightSerial)) cout << "flight removed\n"; else cout << "wrong id\n";
+    flight *f = ap->getFlight(flightSerial);
+    if (f == nullptr) {
+        cout << "wrong id" << endl;
+        return;
+    }
+    cout << "Enter blow info seperated by space: " << endl;
+    cout << "origin, dest, flightDate, flightTime" << endl;
+    string origin, dest, flightDate, flightTime;
+    cin >> origin >> dest >> flightDate >> flightTime;
+    f->setOrigin(origin);
+    f->setDest(dest);
+    f->setFlightDate(flightDate);
+    f->setFlightTime(flightTime);
+    cout << "edited" << endl;
 }
 
 void editCarrier() {

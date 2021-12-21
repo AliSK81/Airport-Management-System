@@ -42,19 +42,17 @@ public:
 
     // --------------------------------
 
-    bool removePilot(const string &pCode);
+    void removePilot(pilot *p);
 
-    bool removeHost(const string &pCode);
+    void removeHost(host *h);
 
-//    void removePassenger(const passenger &p);
+    void removeTicket(ticket *t);
 
-    bool removeTicket(const string &passengerId);
+    void removeFlight(flight *f);
 
-    bool removeFlight(string &flightSerial);
+    void removeCarrier(carrier *c);
 
-    bool removeCarrier(string &serial);
-
-    bool removePlane(string &serial);
+    void removePlane(plane *p);
 
     // --------------------------------
 

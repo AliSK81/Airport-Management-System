@@ -34,24 +34,25 @@ void airport::addPlane(plane *p) {
     planes.push_back(p);
 }
 
-bool airport::removePilot(const string &pCode) {
-    pilot *p = getPilot(pCode);
-    if (p == nullptr || !p->getTasks().empty()) return false;
-    removeElement(pilots, getPilot(pCode));
-    return true;
+// remove pilot -> remove pilot tasks(flights)
+void airport::removePilot(pilot *p) {
+    for (flight *f: p->getTasks()) {
+        removeFlight(f);
+    }
+    removeElement(pilots, p);
 }
 
-bool airport::removeHost(const string &pCode) {
-    host *h = getHost(pCode);
-    if (h == nullptr) return false;
+// remove pilot -> remove host from related tasks(flights)
+void airport::removeHost(host *h) {
+    for (flight *f: h->getTasks()) {
+        f->removeHost(h);
+    }
     removeElement(hosts, h);
-    return true;
 }
 
-bool airport::removeTicket(const string &passengerId) {
-    passenger *p = getPassenger(passengerId);
-    if (p == nullptr) return false;
-    ticket *t = getTicket(passengerId);
+// remove ticket -> remove related passengers, carrier task & return ticket income
+void airport::removeTicket(ticket *t) {
+    passenger *p = getPassenger(t->getPassengerId());
     carrier *c = getCarrier(t->getCarrierId());
     flight *f = getFlight(t->getFlightSerial());
     f->removePassenger(p);
@@ -59,20 +60,35 @@ bool airport::removeTicket(const string &passengerId) {
     c->removeTask(t);
     removeElement(passengers, p);
     removeElement(tickets, t);
-    return true;
 }
 
-bool airport::removeFlight(string &flightSerial) {
-    return false;
+// remove flight -> remove tickets & passengers; remove tasks of hosts & pilot; remove plane task
+void airport::removeFlight(flight *f) {
+    for (passenger *p: f->getPassengers()) {
+        removeTicket(getTicket(p->getId()));
+    }
+    for (host *h: f->getHosts()) {
+        h->removeTask(f);
+    }
+    getPlane(f->getPlaneSerial())->removeFlight(f);
+    f->getPilot()->removeTask(f);
+    removeElement(flights, f);
 }
 
-bool airport::removeCarrier(string &serial) {
-    return false;
-
+// remove carrier -> remove related tickets
+void airport::removeCarrier(carrier *c) {
+    for (ticket *t: c->getTasks()) {
+        removeTicket(t);
+    }
+    removeElement(carriers, c);
 }
 
-bool airport::removePlane(string &serial) {
-    return false;
+// remove plane -> remove related flights
+void airport::removePlane(plane *p) {
+    for (flight *f: p->getTasks()) {
+        removeFlight(f);
+    }
+    removeElement(planes, p);
 }
 
 pilot *airport::getPilot(const string &pCode) {
@@ -86,65 +102,55 @@ pilot *airport::getPilot(const string &pCode) {
 
 host *airport::getHost(const string &pCode) {
     for (host *h: hosts) {
-        if (h->getPCode() == pCode) {
-            return h;
-        }
+        if (h->getPCode() == pCode) return h;
     }
     return nullptr;
 }
 
 passenger *airport::getPassenger(const string &id) {
     for (passenger *p: passengers) {
-        if (p->getId() == id) {
-            return p;
-        }
+        if (p->getId() == id) return p;
     }
     return nullptr;
 }
 
 flight *airport::getFlight(const string &serial) {
     for (flight *f: flights) {
-        if (f->getFlightSerial() == serial) {
-            return f;
-        }
+        if (f->getFlightSerial() == serial) return f;
     }
     return nullptr;
 }
 
 ticket *airport::getTicket(const string &passengerId) {
     for (ticket *t: tickets) {
-        if (t->getPassengerId() == passengerId) {
-            return t;
-        }
+        if (t->getPassengerId() == passengerId) return t;
     }
     return nullptr;
 }
 
 plane *airport::getPlane(const string &serial) {
     for (plane *p: planes) {
-        if (p->getSerial() == serial) {
-            return p;
-        }
+        if (p->getSerial() == serial) return p;
     }
     return nullptr;
 }
 
 carrier *airport::getCarrier(const string &serial) {
     for (carrier *c: carriers) {
-        if (c->getSerial() == serial) {
-            return c;
-        }
+        if (c->getSerial() == serial) return c;
     }
     return nullptr;
 }
 
 void airport::viewFlights_byDate(string &date) {
+    bool found = false;
     for (const flight *f: flights) {
         if (f->getFlightDate() == date) {
-            cout << f->getFlightSerial() << endl;
+            f->printInfo();
+            found = true;
         }
     }
-    if (flights.empty()) cout << "no flights" << endl;
+    if (!found) cout << "no flights" << endl;
 }
 
 void airport::viewPeople_sortedByBirthdate() {
@@ -193,6 +199,7 @@ void airport::viewVehicleTasks_bySerial(string &serial) {
         if (p->getSerial() == serial) {
             p->printInfo();
             for (flight *task: p->getTasks()) task->printInfo();
+            if (p->getTasks().empty()) cout << "no tasks" << endl;
             return;
         }
     }
@@ -200,10 +207,11 @@ void airport::viewVehicleTasks_bySerial(string &serial) {
         if (c->getSerial() == serial) {
             c->printInfo();
             for (ticket *task: c->getTasks()) task->printInfo();
+            if (c->getTasks().empty()) cout << "no tasks" << endl;
             return;
         }
     }
-    cout << "no tasks" << endl;
+    cout << "wrong id" << endl;
 }
 
 void airport::viewWorkersTask_byPCode(string &pCode) {
@@ -213,10 +221,11 @@ void airport::viewWorkersTask_byPCode(string &pCode) {
     for (const worker *w: workers) {
         if (w->getPCode() == pCode) {
             for (const flight *task: w->getTasks()) task->printInfo();
+            if (w->getTasks().empty()) cout << "no tasks" << endl;
             return;
         }
     }
-    cout << "no tasks" << endl;
+    cout << "wrong id" << endl;
 }
 
 void airport::viewPersonInfo_byId(string &id) {
@@ -233,6 +242,7 @@ void airport::viewPersonInfo_byId(string &id) {
     cout << "wrong id" << endl;
 }
 
+// a template to remove an element from vector
 template<typename T>
 void airport::removeElement(vector<T> &v, T e) {
     v.erase(remove(v.begin(), v.end(), e), v.end());

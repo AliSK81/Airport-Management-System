@@ -69,6 +69,10 @@ void flight::setTicketsIncome(double ticketsIncome) {
     flight::ticketsIncome = ticketsIncome;
 }
 
+void flight::removeHost(host *h) {
+    airport::removeElement(hosts, h);
+}
+
 void flight::removePassenger(passenger *p) {
     airport::removeElement(passengers, p);
 }
@@ -81,5 +85,21 @@ void flight::printInfo() const {
     cout << "hosts: " << hosts.size() << ", passengers: " << passengers.size() << endl;
     cout << "pilot info:" << endl;
     pilot->printInfo();
+}
+
+void flight::setOrigin(const string &origin) {
+    flight::origin = origin;
+}
+
+void flight::setDest(const string &dest) {
+    flight::dest = dest;
+}
+
+void flight::setFlightDate(const string &flightDate) {
+    flight::flightDate = flightDate;
+}
+
+void flight::setFlightTime(const string &flightTime) {
+    flight::flightTime = flightTime;
 }
 

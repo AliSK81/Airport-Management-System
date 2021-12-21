@@ -54,6 +54,8 @@ public:
 
     void addHost(host *h);
 
+    void removeHost(host *h);
+
     void addPassenger(passenger *p);
 
     void removePassenger(passenger *p);
@@ -63,6 +65,14 @@ public:
     void printInfo() const;
 
     virtual string getType() const { return "flight"; }
+
+    void setOrigin(const string &origin);
+
+    void setDest(const string &dest);
+
+    void setFlightDate(const string &flightDate);
+
+    void setFlightTime(const string &flightTime);
 
 };
 
