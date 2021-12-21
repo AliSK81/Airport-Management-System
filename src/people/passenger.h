@@ -3,7 +3,9 @@
 
 #include "person.h"
 
-class passenger : person {
+class flight;
+
+class passenger : public person {
 private:
     string fatherName;
 
@@ -12,6 +14,11 @@ public:
               const string &fatherName);
 
     const string &getFatherName() const;
+
+    void printInfo() const;
+
+    virtual string getType() const { return "passenger"; }
+
 };
 
 

@@ -4,9 +4,11 @@
 #include "string"
 #include "vector"
 #include "../people/pilot.h"
-#include "../people/host.h"
+#include "../people/passenger.h"
 
 using namespace std;
+
+class host;
 
 class flight {
 private:
@@ -17,14 +19,14 @@ private:
     string flightDate;
     string flightTime;
     int numOfPassengers;
-    pilot pilot;
-    vector<host> hosts;
+    pilot *pilot;
+    vector<host *> hosts;
+    vector<passenger *> passengers;
     double ticketsIncome;
 
 public:
     flight(const string &flightSerial, const string &planeSerial, const string &origin, const string &dest,
-           const string &flightDate, const string &flightTime, int numOfPassengers, const pilot &pilot,
-           const vector<host> &hosts, double ticketsIncome);
+           const string &flightDate, const string &flightTime, class pilot *pilot);
 
     const string &getFlightSerial() const;
 
@@ -40,11 +42,37 @@ public:
 
     int getNumOfPassengers() const;
 
-    const pilot &getPilot() const;
+    class pilot *getPilot();
 
-    const vector<host> &getHosts() const;
+    const vector<host *> &getHosts() const;
+
+    vector<struct passenger *> getPassengers() const;
 
     double getTicketsIncome() const;
+
+    static bool compareSerial(const flight *f1, const flight *f2);
+
+    void addHost(host *h);
+
+    void removeHost(host *h);
+
+    void addPassenger(passenger *p);
+
+    void removePassenger(passenger *p);
+
+    void setTicketsIncome(double ticketsIncome);
+
+    void printInfo() const;
+
+    virtual string getType() const { return "flight"; }
+
+    void setOrigin(const string &origin);
+
+    void setDest(const string &dest);
+
+    void setFlightDate(const string &flightDate);
+
+    void setFlightTime(const string &flightTime);
 
 };
 

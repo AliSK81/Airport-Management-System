@@ -1,3 +1,4 @@
+#include <iostream>
 #include "passenger.h"
 
 passenger::passenger(const string &id, const string &name, const string &family, const string &birthDate,
@@ -5,4 +6,9 @@ passenger::passenger(const string &id, const string &name, const string &family,
 
 const string &passenger::getFatherName() const {
     return fatherName;
+}
+
+void passenger::printInfo() const {
+    person::printInfo();
+    cout << "fatherName: " << fatherName << endl;
 }

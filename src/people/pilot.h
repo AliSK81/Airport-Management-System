@@ -3,7 +3,9 @@
 
 #include "worker.h"
 
-class pilot : worker {
+class flight;
+
+class pilot : public worker {
 private:
     int rank;
 
@@ -12,6 +14,12 @@ public:
           const string &employDate, int rank);
 
     int getRank() const;
+
+    void printInfo() const;
+
+    virtual string getType() const { return "pilot"; }
+
+    void setRank(int rank);
 };
 
 

@@ -1,27 +1,36 @@
 #ifndef AIRPORTMANAGEMENTSYSTEM_WORKER_H
 #define AIRPORTMANAGEMENTSYSTEM_WORKER_H
-#include "person.h"
-#include "../etc/flight.h"
-#include "list"
 
-class worker : public person{
+#include "person.h"
+#include <vector>
+
+class flight;
+
+class worker : public person {
 private:
     string pCode;
     string employDate;
-    list<flight> tasks;
+    vector<flight *> tasks;
 
 public:
     worker(const string &id, const string &name, const string &family, const string &birthDate, const string &pCode,
            const string &employDate);
 
-    const string &getPCode() const;
-
     const string &getEmployDate() const;
 
-    const list<flight> &getTasks() const;
+    const vector<flight *> &getTasks() const;
 
-    void addTask(const flight &task);
+    void addTask(flight *task);
 
+    void removeTask(flight *task);
+
+    const string &getPCode() const;
+
+    void printInfo() const;
+
+    virtual string getType() const = 0;
+
+    void setEmployDate(const string &employDate);
 };
 
 
