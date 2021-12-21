@@ -2,6 +2,7 @@
 #define AIRPORTMANAGEMENTSYSTEM_VEHICLE_H
 
 #include "string"
+#include <vector>
 
 using namespace std;
 
@@ -16,6 +17,10 @@ public:
     const string &getSerial() const;
 
     const string &getBuildDate() const;
+
+    void printInfo() const;
+
+    virtual string getType() const = 0;
 
 };
 

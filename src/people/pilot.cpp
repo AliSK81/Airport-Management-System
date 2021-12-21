@@ -1,3 +1,4 @@
+#include <iostream>
 #include "pilot.h"
 
 pilot::pilot(const string &id, const string &name, const string &family, const string &birthDate, const string &pCode,
@@ -5,4 +6,9 @@ pilot::pilot(const string &id, const string &name, const string &family, const s
 
 int pilot::getRank() const {
     return rank;
+}
+
+void pilot::printInfo() const{
+    worker::printInfo();
+    cout << "rank: " << rank << endl;
 }

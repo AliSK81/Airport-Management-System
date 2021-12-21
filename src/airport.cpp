@@ -36,25 +36,30 @@ void airport::addPlane(plane *p) {
 
 bool airport::removePilot(const string &pCode) {
     pilot *p = getPilot(pCode);
-    if(p == nullptr || !p->getTasks().empty()) return false;
+    if (p == nullptr || !p->getTasks().empty()) return false;
     removeElement(pilots, getPilot(pCode));
     return true;
 }
 
 bool airport::removeHost(const string &pCode) {
     host *h = getHost(pCode);
-    if(h == nullptr) return false;
+    if (h == nullptr) return false;
     removeElement(hosts, h);
+    return true;
 }
 
 bool airport::removeTicket(const string &passengerId) {
-    bool success;
-    auto it = remove_if(tickets.begin(), tickets.end(),
-                        [passengerId](ticket *t) { return t->getPassengerId() == passengerId; });
-    if ((success = it != tickets.end())) {
-        tickets.erase(it, tickets.end());
-    }
-    return success;
+    passenger *p = getPassenger(passengerId);
+    if (p == nullptr) return false;
+    ticket *t = getTicket(passengerId);
+    carrier *c = getCarrier(t->getCarrierId());
+    flight *f = getFlight(t->getFlightSerial());
+    f->removePassenger(p);
+    f->setTicketsIncome(f->getTicketsIncome() - t->getTicketPrice());
+    c->removeTask(t);
+    removeElement(passengers, p);
+    removeElement(tickets, t);
+    return true;
 }
 
 bool airport::removeFlight(string &flightSerial) {
@@ -88,7 +93,7 @@ host *airport::getHost(const string &pCode) {
     return nullptr;
 }
 
-passenger *airport::getPassenger(string &id) {
+passenger *airport::getPassenger(const string &id) {
     for (passenger *p: passengers) {
         if (p->getId() == id) {
             return p;
@@ -97,7 +102,7 @@ passenger *airport::getPassenger(string &id) {
     return nullptr;
 }
 
-flight *airport::getFlight(string &serial) {
+flight *airport::getFlight(const string &serial) {
     for (flight *f: flights) {
         if (f->getFlightSerial() == serial) {
             return f;
@@ -139,51 +144,34 @@ void airport::viewFlights_byDate(string &date) {
             cout << f->getFlightSerial() << endl;
         }
     }
+    if (flights.empty()) cout << "no flights" << endl;
 }
 
 void airport::viewPeople_sortedByBirthdate() {
-    if (!pilots.empty()) {
-        cout << "pilots:" << endl;
-        sort(pilots.begin(), pilots.end(), person::compareBirthDate);
-        for (const pilot *p: pilots) {
-            cout << p->getId() << endl;
-        }
-    }
-    if (!hosts.empty()) {
-        cout << "hosts:" << endl;
-        sort(hosts.begin(), hosts.end(), person::compareBirthDate);
-        for (const host *h: hosts) {
-            cout << h->getId() << endl;
-        }
-    }
-    if (!passengers.empty()) {
-        cout << "passengers:" << endl;
-        sort(passengers.begin(), passengers.end(), person::compareBirthDate);
-        for (const passenger *p: passengers) {
-            cout << p->getId() << endl;
-        }
-    }
-    if (pilots.empty() && hosts.empty() && passengers.empty()) {
+    vector<person *> people;
+    people.insert(people.end(), pilots.begin(), pilots.end());
+    people.insert(people.end(), hosts.begin(), hosts.end());
+    people.insert(people.end(), passengers.begin(), passengers.end());
+
+    if (!people.empty()) {
+        cout << "people:" << endl;
+        sort(people.begin(), people.end(), person::compareBirthDate);
+        for (const person *p: people) p->printInfo();
+    } else {
         cout << "no people" << endl;
     }
 }
 
 void airport::viewWorkers_sortedByFamily() {
-    if (!pilots.empty()) {
-        cout << "pilots:" << endl;
-        sort(pilots.begin(), pilots.end(), person::compareFamily);
-        for (const pilot *p: pilots) {
-            cout << p->getId() << endl;
-        }
-    }
-    if (!hosts.empty()) {
-        cout << "hosts:" << endl;
-        sort(hosts.begin(), hosts.end(), person::compareFamily);
-        for (const host *h: hosts) {
-            cout << h->getId() << endl;
-        }
-    }
-    if (pilots.empty() && hosts.empty()) {
+    vector<worker *> workers;
+    workers.insert(workers.end(), pilots.begin(), pilots.end());
+    workers.insert(workers.end(), hosts.begin(), hosts.end());
+
+    if (!workers.empty()) {
+        cout << "workers:" << endl;
+        sort(workers.begin(), workers.end(), person::compareFamily);
+        for (const worker *p: workers) p->printInfo();
+    } else {
         cout << "no workers" << endl;
     }
 }
@@ -195,24 +183,23 @@ void airport::viewFlights_sortedBySerial() {
         for (const flight *f: flights) {
             cout << f->getFlightSerial() << endl;
         }
+    } else {
+        cout << "no flights" << endl;
     }
-    cout << "no flights";
 }
 
 void airport::viewVehicleTasks_bySerial(string &serial) {
     for (const plane *p: planes) {
         if (p->getSerial() == serial) {
-            for (flight *task: p->getTasks()) {
-                cout << task->getFlightSerial() << endl;
-            }
+            p->printInfo();
+            for (flight *task: p->getTasks()) task->printInfo();
             return;
         }
     }
     for (const carrier *c: carriers) {
         if (c->getSerial() == serial) {
-            for (ticket *task: c->getTasks()) {
-                cout << task->getFlightSerial() << endl;
-            }
+            c->printInfo();
+            for (ticket *task: c->getTasks()) task->printInfo();
             return;
         }
     }
@@ -220,19 +207,12 @@ void airport::viewVehicleTasks_bySerial(string &serial) {
 }
 
 void airport::viewWorkersTask_byPCode(string &pCode) {
-    for (const pilot *p: pilots) {
-        if (p->getPCode() == pCode) {
-            for (const flight *task: p->getTasks()) {
-                cout << task->getFlightSerial() << endl;
-            }
-            return;
-        }
-    }
-    for (const host *h: hosts) {
-        if (h->getPCode() == pCode) {
-            for (const flight *task: h->getTasks()) {
-                cout << task->getFlightSerial() << endl;
-            }
+    vector<worker *> workers;
+    workers.insert(workers.end(), pilots.begin(), pilots.end());
+    workers.insert(workers.end(), hosts.begin(), hosts.end());
+    for (const worker *w: workers) {
+        if (w->getPCode() == pCode) {
+            for (const flight *task: w->getTasks()) task->printInfo();
             return;
         }
     }
@@ -240,21 +220,13 @@ void airport::viewWorkersTask_byPCode(string &pCode) {
 }
 
 void airport::viewPersonInfo_byId(string &id) {
-    for (const host *h: hosts) {
-        if (h->getId() == id) {
-            cout << h->getId() << endl;
-            return;
-        }
-    }
-    for (const passenger *p: passengers) {
+    vector<person *> people;
+    people.insert(people.end(), pilots.begin(), pilots.end());
+    people.insert(people.end(), hosts.begin(), hosts.end());
+    people.insert(people.end(), passengers.begin(), passengers.end());
+    for (const person *p: people) {
         if (p->getId() == id) {
-            cout << p->getId() << endl;
-            return;
-        }
-    }
-    for (const pilot *p: pilots) {
-        if (p->getId() == id) {
-            cout << p->getId() << endl;
+            p->printInfo();
             return;
         }
     }
@@ -262,18 +234,6 @@ void airport::viewPersonInfo_byId(string &id) {
 }
 
 template<typename T>
-void airport::removeElement(vector<T>& v, T e) {
+void airport::removeElement(vector<T> &v, T e) {
     v.erase(remove(v.begin(), v.end(), e), v.end());
 }
-
-
-
-
-
-
-
-
-
-
-
-

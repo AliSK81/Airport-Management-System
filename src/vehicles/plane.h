@@ -8,7 +8,7 @@
 class plane : public vehicle {
 private:
     int numOfSeats;
-    vector<flight*> flights;
+    vector<flight *> flights;
 
 public:
     plane(const string &serial, const string &buildDate, int numOfSeats);
@@ -20,6 +20,11 @@ public:
     void addFlight(flight *flight);
 
     bool removeFlight(string &serial);
+
+    void printInfo() const;
+
+    virtual string getType() const { return "plane"; }
+
 };
 
 

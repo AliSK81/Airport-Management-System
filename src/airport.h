@@ -10,6 +10,7 @@
 #include "vehicles/carrier.h"
 #include "vehicles/plane.h"
 #include "people/person.h"
+
 using namespace std;
 
 class airport {
@@ -41,9 +42,9 @@ public:
 
     // --------------------------------
 
-    bool removePilot(const string& pCode);
+    bool removePilot(const string &pCode);
 
-    bool removeHost(const string& pCode);
+    bool removeHost(const string &pCode);
 
 //    void removePassenger(const passenger &p);
 
@@ -73,14 +74,14 @@ public:
 
     // --------------------------
 
-    flight *getFlight(string &serial);
+    flight *getFlight(const string &serial);
 
     pilot *getPilot(const string &pCode);
 
 
     host *getHost(const string &pCode);
 
-    passenger *getPassenger(string &id);
+    passenger *getPassenger(const string &id);
 
     plane *getPlane(const string &serial);
 

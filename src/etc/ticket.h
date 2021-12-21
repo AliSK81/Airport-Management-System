@@ -53,6 +53,10 @@ public:
 
     double getProfitRate() const;
 
+    void printInfo() const;
+
+    virtual string getType() const { return "ticket"; }
+
 };
 
 

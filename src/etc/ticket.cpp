@@ -1,3 +1,4 @@
+#include <iostream>
 #include "ticket.h"
 
 ticket::ticket(const string &flightSerial, const string &flightDate, const string &flightTime, const string &origin,
@@ -60,4 +61,13 @@ double ticket::getTicketPrice() const {
 
 double ticket::getProfitRate() const {
     return profitRate;
+}
+
+void ticket::printInfo() const {
+    cout << getType() << " ---------------------\n";
+    cout << "flightSerial: " << flightSerial << ", flightDate: " << flightDate << ", flightTime: " << flightTime << endl;
+    cout << "origin: " << origin << ", dest: " << dest << endl;
+    cout << "passengerId: " << passengerId << ", passengerName: " << passengerName << ", passengerFamily: " << passengerFamily << endl;
+    cout << "planeSerial: " << planeSerial << ", pilotPId: " << pilotPId << ", carrierId: " << carrierId << endl;
+    cout << "ticketPrice: " << ticketPrice << ", profitRate: " << profitRate << endl;
 }

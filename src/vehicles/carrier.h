@@ -12,10 +12,16 @@ private:
 public:
     carrier(const string &serial, const string &buildDate);
 
+    const vector<ticket *> &getTasks() const;
+
     void addTask(ticket *task);
 
+    void removeTask(ticket *task);
 
-    const vector<ticket *> &getTasks() const;
+    void printInfo() const;
+
+    virtual string getType() const { return "carrier"; }
+
 };
 
 

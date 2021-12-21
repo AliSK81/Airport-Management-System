@@ -23,9 +23,13 @@ public:
 
     const string &getBirthDate() const;
 
-    static bool compareBirthDate(const person* p1, const person* p2);
+    static bool compareBirthDate(const person *p1, const person *p2);
 
     static bool compareFamily(const person *p1, const person *p2);
+
+    virtual void printInfo() const;
+
+    virtual string getType() const = 0;
 
 };
 

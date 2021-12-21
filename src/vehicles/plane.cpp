@@ -1,7 +1,8 @@
+#include <iostream>
 #include "plane.h"
 
-plane::plane(const string &serial, const string &buildDate, int numOfSeats) : vehicle(
-        serial, buildDate), numOfSeats(numOfSeats), flights(flights) {}
+plane::plane(const string &serial, const string &buildDate, int numOfSeats) : vehicle(serial, buildDate),
+                                                                              numOfSeats(numOfSeats) {}
 
 int plane::getNumOfSeats() const {
     return numOfSeats;
@@ -24,3 +25,9 @@ bool plane::removeFlight(string &serial) {
 const vector<flight *> &plane::getTasks() const {
     return flights;
 }
+
+void plane::printInfo() const {
+    vehicle::printInfo();
+    cout << "numOfSeats: " << numOfSeats << ", tasks: " << flights.size() << endl;
+}
+

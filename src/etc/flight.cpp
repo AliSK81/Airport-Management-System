@@ -1,9 +1,11 @@
+#include <iostream>
 #include "flight.h"
+#include "../airport.h"
 
 flight::flight(const string &flightSerial, const string &planeSerial, const string &origin, const string &dest,
                const string &flightDate, const string &flightTime, class pilot *pilot)
         : flightSerial(flightSerial), planeSerial(planeSerial), origin(origin), dest(dest),
-          flightDate(flightDate), flightTime(flightTime), numOfPassengers(numOfPassengers),
+          flightDate(flightDate), flightTime(flightTime), numOfPassengers(0), ticketsIncome(0),
           pilot(pilot) {}
 
 const string &flight::getFlightSerial() const {
@@ -65,5 +67,19 @@ void flight::addPassenger(passenger *p) {
 
 void flight::setTicketsIncome(double ticketsIncome) {
     flight::ticketsIncome = ticketsIncome;
+}
+
+void flight::removePassenger(passenger *p) {
+    airport::removeElement(passengers, p);
+}
+
+void flight::printInfo() const {
+    cout << getType() << " ---------------------\n";
+    cout << "flightSerial: " << flightSerial << ", flightDate: " << flightDate << ", flightTime: " << flightTime << endl;
+    cout << "origin: " << origin << ", dest: " << dest << endl;
+    cout << "planeSerial: " << planeSerial << ", numOfPassengers: " << numOfPassengers << ", ticketsIncome: " << ticketsIncome << endl;
+    cout << "hosts: " << hosts.size() << ", passengers: " << passengers.size() << endl;
+    cout << "pilot info:" << endl;
+    pilot->printInfo();
 }
 
