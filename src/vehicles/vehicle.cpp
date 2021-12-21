@@ -16,6 +16,10 @@ void vehicle::printInfo() const {
     cout << "serial: " << serial << ", buildDate: " << buildDate << endl;
 }
 
+void vehicle::setBuildDate(const string &buildDate) {
+    vehicle::buildDate = buildDate;
+}
+
 
 
 

@@ -25,6 +25,8 @@ public:
 
     virtual string getType() const { return "plane"; }
 
+    void setNumOfSeats(int numOfSeats);
+
 };
 
 

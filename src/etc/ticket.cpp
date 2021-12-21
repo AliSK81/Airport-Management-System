@@ -71,3 +71,11 @@ void ticket::printInfo() const {
     cout << "planeSerial: " << planeSerial << ", pilotPId: " << pilotPId << ", carrierId: " << carrierId << endl;
     cout << "ticketPrice: " << ticketPrice << ", profitRate: " << profitRate << endl;
 }
+
+void ticket::setTicketPrice(double ticketPrice) {
+    ticket::ticketPrice = ticketPrice;
+}
+
+void ticket::setProfitRate(double profitRate) {
+    ticket::profitRate = profitRate;
+}

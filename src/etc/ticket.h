@@ -57,6 +57,10 @@ public:
 
     virtual string getType() const { return "ticket"; }
 
+    void setTicketPrice(double ticketPrice);
+
+    void setProfitRate(double profitRate);
+
 };
 
 

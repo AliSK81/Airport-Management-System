@@ -33,3 +33,14 @@ void person::printInfo() const {
     cout << "id: " << id << ", name: " << name << ", family: " << family << ", birthDate: " << birthDate << endl;
 }
 
+void person::setName(const string &name) {
+    person::name = name;
+}
+
+void person::setFamily(const string &family) {
+    person::family = family;
+}
+
+void person::setBirthDate(const string &birthDate) {
+    person::birthDate = birthDate;
+}

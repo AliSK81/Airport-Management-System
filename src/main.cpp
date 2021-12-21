@@ -16,7 +16,7 @@ void removeMenu(), removePilot(), removeTicket(), removeHost(), removeFlight(), 
 
 void viewMenu(), viewFlights_byDate(), viewVehicleTasks_bySerial(), viewWorkersTask_byPCode(), viewPersonInfo_byId();
 
-void editMenu();
+void editMenu(), editPilot(), editTicket(), editHost(), editFlight(), editCarrier(), editPlane();
 
 
 int main() {
@@ -187,10 +187,41 @@ void viewMenu() {
 
 void editMenu() {
     cout << "\nEdit Menu:" << endl;
+    cout << "1) Edit pilot" << endl;
+    cout << "2) Edit ticket" << endl;
+    cout << "3) Edit host" << endl;
+    cout << "4) Edit flight" << endl;
+    cout << "5) Edit carrier" << endl;
+    cout << "6) Edit plane" << endl;
+    cout << "7) Back" << endl;
 
-    cout << "8) Back" << endl;
     int act;
     cin >> act;
+
+    switch (act) {
+        case 1:
+            editPilot();
+            break;
+        case 2:
+            editTicket();
+            break;
+        case 3:
+            editHost();
+            break;
+        case 4:
+            editFlight();
+            break;
+        case 5:
+            editCarrier();
+            break;
+        case 6:
+            editPlane();
+            break;
+        case 7:
+            return;
+    }
+
+    editMenu();
 }
 
 // add -----------------------------------------------------------------------------------------------------------------
@@ -389,4 +420,104 @@ void viewPersonInfo_byId() {
 }
 
 
-// --------------------------------------
+// edit ----------------------------------------------------------------------------------------------------------------
+
+void editPilot() {
+    string pCode;
+    cout << "Enter personnel-code: ";
+    cin >> pCode;
+    pilot *p = ap->getPilot(pCode);
+    if (p == nullptr) {
+        cout << "wrong id" << endl;
+        return;
+    }
+    cout << "Enter blow info seperated by space: " << endl;
+    cout << "name, family, birthDate, employDate, rank" << endl;
+    string name, family, birthDate, employDate;
+    int rank;
+    cin >> name >> family >> birthDate >> employDate >> rank;
+    p->setName(name);
+    p->setFamily(family);
+    p->setBirthDate(birthDate);
+    p->setEmployDate(employDate);
+    p->setRank(rank);
+    cout << "edited" << endl;
+}
+
+void editTicket() {
+    string passengerId;
+    cout << "Enter passenger id: ";
+    cin >> passengerId;
+    ticket *t = ap->getTicket(passengerId);
+    if (t == nullptr) {
+        cout << "wrong id" << endl;
+        return;
+    }
+    cout << "Enter blow info seperated by space: " << endl;
+    cout << "ticketPrice, profitRate" << endl;
+    double ticketPrice, profitRate;
+    cin >> ticketPrice >> profitRate;
+    t->setTicketPrice(ticketPrice);
+    t->setProfitRate(profitRate);
+    cout << "edited" << endl;
+}
+
+void editHost() {
+    string pCode;
+    cout << "Enter personnel code: ";
+    cin >> pCode;
+    host *h = ap->getHost(pCode);
+    if (h == nullptr) {
+        cout << "wrong id" << endl;
+        return;
+    }
+    cout << "Enter blow info seperated by space: " << endl;
+    cout << "name, family, birthDate, employDate" << endl;
+    string name, family, birthDate, employDate;
+    cin >> name >> family >> birthDate >> employDate;
+    h->setName(name);
+    h->setFamily(family);
+    h->setBirthDate(birthDate);
+    h->setEmployDate(employDate);
+    cout << "edited" << endl;
+}
+
+void editFlight() {
+    string flightSerial;
+    cout << "Enter flight serial: ";
+    cin >> flightSerial;
+    if (ap->removeFlight(flightSerial)) cout << "flight removed\n"; else cout << "wrong id\n";
+}
+
+void editCarrier() {
+    string serial, buildDate;
+    cout << "Enter serial: ";
+    cin >> serial;
+    cout << "Enter buildDate: ";
+    cin >> buildDate;
+    carrier *c = ap->getCarrier(serial);
+    if (c == nullptr) {
+        cout << "wrong id" << endl;
+        return;
+    }
+    c->setBuildDate(buildDate);
+    cout << "edited" << endl;
+}
+
+void editPlane() {
+    string serial, buildDate;
+    cout << "Enter serial: ";
+    cin >> serial;
+    cout << "Enter blow info seperated by space: " << endl;
+    cout << "buildDate, numOfSeats" << endl;
+    int numOfSeats;
+    cin >> buildDate >> numOfSeats;
+    plane *p = ap->getPlane(serial);
+    if (p == nullptr) {
+        cout << "wrong id" << endl;
+        return;
+    }
+    p->setBuildDate(buildDate);
+    p->setNumOfSeats(numOfSeats);
+    cout << "edited" << endl;
+}

@@ -18,6 +18,8 @@ public:
     void printInfo() const;
 
     virtual string getType() const { return "pilot"; }
+
+    void setRank(int rank);
 };
 
 

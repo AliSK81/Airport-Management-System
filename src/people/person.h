@@ -31,6 +31,12 @@ public:
 
     virtual string getType() const = 0;
 
+    void setName(const string &name);
+
+    void setFamily(const string &family);
+
+    void setBirthDate(const string &birthDate);
+
 };
 
 

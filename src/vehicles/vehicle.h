@@ -22,6 +22,9 @@ public:
 
     virtual string getType() const = 0;
 
+    void setBuildDate(const string &buildDate);
+
+
 };
 
 

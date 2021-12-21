@@ -31,3 +31,7 @@ void plane::printInfo() const {
     cout << "numOfSeats: " << numOfSeats << ", tasks: " << flights.size() << endl;
 }
 
+void plane::setNumOfSeats(int numOfSeats) {
+    plane::numOfSeats = numOfSeats;
+}
+

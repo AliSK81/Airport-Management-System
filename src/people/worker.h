@@ -29,6 +29,8 @@ public:
     void printInfo() const;
 
     virtual string getType() const = 0;
+
+    void setEmployDate(const string &employDate);
 };
 
 

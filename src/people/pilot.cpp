@@ -12,3 +12,7 @@ void pilot::printInfo() const{
     worker::printInfo();
     cout << "rank: " << rank << endl;
 }
+
+void pilot::setRank(int rank) {
+    pilot::rank = rank;
+}
