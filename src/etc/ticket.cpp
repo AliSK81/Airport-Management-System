@@ -15,40 +15,8 @@ const string &ticket::getFlightSerial() const {
     return flightSerial;
 }
 
-const string &ticket::getFlightDate() const {
-    return flightDate;
-}
-
-const string &ticket::getFlightTime() const {
-    return flightTime;
-}
-
-const string &ticket::getOrigin() const {
-    return origin;
-}
-
-const string &ticket::getDest() const {
-    return dest;
-}
-
-const string &ticket::getPassengerName() const {
-    return passengerName;
-}
-
-const string &ticket::getPassengerFamily() const {
-    return passengerFamily;
-}
-
 const string &ticket::getPassengerId() const {
     return passengerId;
-}
-
-const string &ticket::getPlaneSerial() const {
-    return planeSerial;
-}
-
-const string &ticket::getPilotPId() const {
-    return pilotPId;
 }
 
 const string &ticket::getCarrierId() const {
@@ -59,9 +27,6 @@ double ticket::getTicketPrice() const {
     return ticketPrice;
 }
 
-double ticket::getProfitRate() const {
-    return profitRate;
-}
 
 void ticket::printInfo() const {
     cout << getType() << " ---------------------\n";
@@ -72,10 +37,10 @@ void ticket::printInfo() const {
     cout << "ticketPrice: " << ticketPrice << ", profitRate: " << profitRate << endl;
 }
 
-void ticket::setTicketPrice(double ticketPrice) {
-    ticket::ticketPrice = ticketPrice;
+void ticket::setTicketPrice(double price) {
+    ticketPrice = price;
 }
 
-void ticket::setProfitRate(double profitRate) {
-    ticket::profitRate = profitRate;
+void ticket::setProfitRate(double rate) {
+    profitRate = rate;
 }

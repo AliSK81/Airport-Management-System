@@ -15,13 +15,9 @@ private:
 public:
     person(const string &id, const string &name, const string &family, const string &birthDate);
 
+    person() = default;
+
     const string &getId() const;
-
-    const string &getName() const;
-
-    const string &getFamily() const;
-
-    const string &getBirthDate() const;
 
     static bool compareBirthDate(const person *p1, const person *p2);
 
@@ -36,6 +32,24 @@ public:
     void setFamily(const string &family);
 
     void setBirthDate(const string &birthDate);
+
+    virtual void out(ostream &os) const {
+        os << id + ' ' + name + ' ' + family + ' ' + birthDate;
+    }
+
+    virtual void in(istream &is) {
+        is >> id >> name >> family >> birthDate;
+    }
+
+    friend ostream &operator<<(ostream &out, const person &p) {
+        p.out(out);
+        return out;
+    }
+
+    friend istream &operator>>(istream &in, person &p) {
+        p.in(in);
+        return in;
+    }
 
 };
 

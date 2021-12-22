@@ -24,6 +24,9 @@ int main() {
 
     ap = new airport();
 
+    // load project from files
+    ap->loadProject();
+
     // main menu
 
     while (true) {
@@ -34,7 +37,7 @@ int main() {
         cout << "2) Remove from airport" << endl;
         cout << "3) View airport reports" << endl;
         cout << "4) Edit items information" << endl;
-        cout << "5) Exit system" << endl;
+        cout << "5) Save data & Exit" << endl;
 
         int act;
         cin >> act;
@@ -52,8 +55,10 @@ int main() {
             case 4:
                 editMenu();
                 break;
-            case 5:
+            case 5: {
+                ap->saveProject();
                 exit(0);
+            }
         }
 
     }
@@ -305,6 +310,7 @@ void addFlight() {
     cout << "Enter hosts [personnel-code] seperated by space:" << endl;
     cin.ignore();
     getline(cin, line);
+    // split Ids into vector
     stringstream hid(line);
     istream_iterator<string> begin(hid);
     istream_iterator<string> end;
@@ -318,7 +324,7 @@ void addFlight() {
             cout << "a host not found (personnel-code: " + pCode + ")\n";
         }
     }
-    pl->addFlight(f);
+    pl->addTask(f);
     p->addTask(f);
 
     ap->addFlight(f);
@@ -542,13 +548,13 @@ void editCarrier() {
     string serial, buildDate;
     cout << "Enter serial: ";
     cin >> serial;
-    cout << "Enter buildDate: ";
-    cin >> buildDate;
     carrier *c = ap->getCarrier(serial);
     if (c == nullptr) {
         cout << "wrong id" << endl;
         return;
     }
+    cout << "Enter buildDate: ";
+    cin >> buildDate;
     c->setBuildDate(buildDate);
     cout << "edited" << endl;
 }
@@ -557,15 +563,15 @@ void editPlane() {
     string serial, buildDate;
     cout << "Enter serial: ";
     cin >> serial;
-    cout << "Enter blow info seperated by space: " << endl;
-    cout << "buildDate, numOfSeats" << endl;
-    int numOfSeats;
-    cin >> buildDate >> numOfSeats;
     plane *p = ap->getPlane(serial);
     if (p == nullptr) {
         cout << "wrong id" << endl;
         return;
     }
+    cout << "Enter blow info seperated by space: " << endl;
+    cout << "buildDate, numOfSeats" << endl;
+    int numOfSeats;
+    cin >> buildDate >> numOfSeats;
     p->setBuildDate(buildDate);
     p->setNumOfSeats(numOfSeats);
     cout << "edited" << endl;

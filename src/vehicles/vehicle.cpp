@@ -7,18 +7,15 @@ const string &vehicle::getSerial() const {
     return serial;
 }
 
-const string &vehicle::getBuildDate() const {
-    return buildDate;
-}
-
 void vehicle::printInfo() const {
     cout << getType() << " ------------------------\n";
     cout << "serial: " << serial << ", buildDate: " << buildDate << endl;
 }
 
-void vehicle::setBuildDate(const string &buildDate) {
-    vehicle::buildDate = buildDate;
+void vehicle::setBuildDate(const string &date) {
+    vehicle::buildDate = date;
 }
+
 
 
 

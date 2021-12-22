@@ -11,13 +11,15 @@ private:
     vector<flight *> flights;
 
 public:
+    plane() = default;
+
     plane(const string &serial, const string &buildDate, int numOfSeats);
 
-    int getNumOfSeats() const;
+    void setNumOfSeats(int seats);
 
     const vector<flight *> &getTasks() const;
 
-    void addFlight(flight *flight);
+    void addTask(flight *flight);
 
     void removeFlight(flight *f);
 
@@ -25,7 +27,15 @@ public:
 
     virtual string getType() const { return "plane"; }
 
-    void setNumOfSeats(int numOfSeats);
+    virtual void out(ostream &os) const {
+        vehicle::out(os);
+        os << ' ' << numOfSeats << endl;
+    }
+
+    virtual void in(istream &is) {
+        vehicle::in(is);
+        is >> numOfSeats;
+    }
 
 };
 

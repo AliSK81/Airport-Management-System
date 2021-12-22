@@ -16,6 +16,8 @@ public:
     worker(const string &id, const string &name, const string &family, const string &birthDate, const string &pCode,
            const string &employDate);
 
+    worker() = default;
+
     const string &getEmployDate() const;
 
     const vector<flight *> &getTasks() const;
@@ -31,6 +33,16 @@ public:
     virtual string getType() const = 0;
 
     void setEmployDate(const string &employDate);
+
+    virtual void out(ostream &os) const {
+        person::out(os);
+        os << ' ' + pCode + ' ' + employDate;
+    }
+
+    virtual void in(istream &is) {
+        person::in(is);
+        is >> pCode >> employDate;
+    }
 };
 
 
