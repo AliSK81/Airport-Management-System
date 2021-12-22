@@ -33,6 +33,7 @@ void worker::printInfo() const {
     cout << "personnel-code: " << pCode + ", " << "employDate: " << employDate << ", tasks: " << tasks.size() << endl;
 }
 
-void worker::setEmployDate(const string &employDate) {
-    worker::employDate = employDate;
+void worker::setEmployDate(const string &date) {
+    employDate = date;
 }
+

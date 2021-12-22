@@ -25,6 +25,8 @@ private:
     double ticketsIncome;
 
 public:
+    flight() = default;
+
     flight(const string &flightSerial, const string &planeSerial, const string &origin, const string &dest,
            const string &flightDate, const string &flightTime, class pilot *pilot);
 
@@ -39,8 +41,6 @@ public:
     const string &getFlightDate() const;
 
     const string &getFlightTime() const;
-
-    int getNumOfPassengers() const;
 
     class pilot *getPilot();
 
@@ -73,6 +73,39 @@ public:
     void setFlightDate(const string &flightDate);
 
     void setFlightTime(const string &flightTime);
+
+    void setPilot(class pilot *pilot);
+
+    virtual void out(ostream &os) const {
+        os <<
+           flightSerial
+           + ' ' + planeSerial
+           + ' ' + origin
+           + ' ' + dest
+           + ' ' + flightDate
+           + ' ' + flightTime
+           + ' ' + pilot->getPCode()
+           + ' ' + to_string(ticketsIncome)
+           << endl;
+    }
+
+    virtual void in(istream &is) {
+        string pilotPCode, income;
+        is >> flightSerial >> planeSerial >> origin >> dest >> flightDate >> flightTime >> pilotPCode >> income;
+        if (income != "")
+            ticketsIncome = stof(income);
+
+    }
+
+    friend ostream &operator<<(ostream &out, const flight &f) {
+        f.out(out);
+        return out;
+    }
+
+    friend istream &operator>>(istream &in, flight &f) {
+        f.in(in);
+        return in;
+    }
 
 };
 

@@ -32,10 +32,6 @@ const string &flight::getFlightTime() const {
     return flightTime;
 }
 
-int flight::getNumOfPassengers() const {
-    return numOfPassengers;
-}
-
 pilot *flight::getPilot() {
     return pilot;
 }
@@ -65,8 +61,8 @@ void flight::addPassenger(passenger *p) {
     numOfPassengers++;
 }
 
-void flight::setTicketsIncome(double ticketsIncome) {
-    flight::ticketsIncome = ticketsIncome;
+void flight::setTicketsIncome(double income) {
+    ticketsIncome = income;
 }
 
 void flight::removeHost(host *h) {
@@ -75,6 +71,7 @@ void flight::removeHost(host *h) {
 
 void flight::removePassenger(passenger *p) {
     airport::removeElement(passengers, p);
+    numOfPassengers--;
 }
 
 void flight::printInfo() const {
@@ -83,23 +80,26 @@ void flight::printInfo() const {
     cout << "origin: " << origin << ", dest: " << dest << endl;
     cout << "planeSerial: " << planeSerial << ", numOfPassengers: " << numOfPassengers << ", ticketsIncome: " << ticketsIncome << endl;
     cout << "hosts: " << hosts.size() << ", passengers: " << passengers.size() << endl;
-    cout << "pilot info:" << endl;
-    pilot->printInfo();
+    cout << "pilot personnel-code: " << pilot->getPCode() << endl;
 }
 
-void flight::setOrigin(const string &origin) {
-    flight::origin = origin;
+void flight::setOrigin(const string &org) {
+    flight::origin = org;
 }
 
-void flight::setDest(const string &dest) {
-    flight::dest = dest;
+void flight::setDest(const string &des) {
+    flight::dest = des;
 }
 
-void flight::setFlightDate(const string &flightDate) {
-    flight::flightDate = flightDate;
+void flight::setFlightDate(const string &date) {
+    flight::flightDate = date;
 }
 
-void flight::setFlightTime(const string &flightTime) {
-    flight::flightTime = flightTime;
+void flight::setFlightTime(const string &time) {
+    flight::flightTime = time;
+}
+
+void flight::setPilot(class pilot *p) {
+    flight::pilot = p;
 }
 

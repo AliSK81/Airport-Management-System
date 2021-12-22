@@ -8,18 +8,6 @@ const string &person::getId() const {
     return id;
 }
 
-const string &person::getName() const {
-    return name;
-}
-
-const string &person::getFamily() const {
-    return family;
-}
-
-const string &person::getBirthDate() const {
-    return birthDate;
-}
-
 bool person::compareBirthDate(const person *p1, const person *p2) {
     return p1->birthDate > p2->birthDate;
 }
@@ -33,14 +21,16 @@ void person::printInfo() const {
     cout << "id: " << id << ", name: " << name << ", family: " << family << ", birthDate: " << birthDate << endl;
 }
 
-void person::setName(const string &name) {
-    person::name = name;
+void person::setName(const string &pname) {
+    person::name = pname;
 }
 
-void person::setFamily(const string &family) {
-    person::family = family;
+void person::setFamily(const string &pfamily) {
+    person::family = pfamily;
 }
 
-void person::setBirthDate(const string &birthDate) {
-    person::birthDate = birthDate;
+void person::setBirthDate(const string &pbirthDate) {
+    person::birthDate = pbirthDate;
 }
+
+

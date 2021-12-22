@@ -90,6 +90,23 @@ public:
 
     template<typename T>
     static void removeElement(vector<T> &v, T e);
+
+//    template<typename T>
+//    void saveToFile(T obj, string path);
+
+    template<typename T>
+    void readFile(vector<T *> &v, string path);
+
+    template<typename T>
+    void saveToFile(vector<T *> &v, string path);
+
+    void loadProject();
+
+    void saveProject();
+
+    void saveTasks();
+
+    void loadTasks();
 };
 
 

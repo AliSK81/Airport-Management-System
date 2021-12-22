@@ -5,11 +5,11 @@
 plane::plane(const string &serial, const string &buildDate, int numOfSeats) : vehicle(serial, buildDate),
                                                                               numOfSeats(numOfSeats) {}
 
-int plane::getNumOfSeats() const {
-    return numOfSeats;
+void plane::setNumOfSeats(int seats) {
+    numOfSeats = seats;
 }
 
-void plane::addFlight(flight *flight) {
+void plane::addTask(flight *flight) {
     flights.push_back(flight);
 }
 
@@ -24,9 +24,5 @@ const vector<flight *> &plane::getTasks() const {
 void plane::printInfo() const {
     vehicle::printInfo();
     cout << "numOfSeats: " << numOfSeats << ", tasks: " << flights.size() << endl;
-}
-
-void plane::setNumOfSeats(int numOfSeats) {
-    plane::numOfSeats = numOfSeats;
 }
 
