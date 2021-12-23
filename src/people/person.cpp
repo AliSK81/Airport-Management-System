@@ -9,11 +9,11 @@ const string &person::getId() const {
 }
 
 bool person::compareBirthDate(const person *p1, const person *p2) {
-    return p1->birthDate > p2->birthDate;
+    return p1->birthDate < p2->birthDate;
 }
 
 bool person::compareFamily(const person *p1, const person *p2) {
-    return p1->family > p2->family;
+    return p1->family < p2->family;
 }
 
 void person::printInfo() const {

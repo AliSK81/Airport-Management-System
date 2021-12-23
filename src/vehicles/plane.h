@@ -8,7 +8,7 @@
 class plane : public vehicle {
 private:
     int numOfSeats;
-    vector<flight *> flights;
+    vector<flight *> tasks;
 
 public:
     plane() = default;
@@ -21,7 +21,7 @@ public:
 
     void addTask(flight *flight);
 
-    void removeFlight(flight *f);
+    void removeTask(flight *f);
 
     void printInfo() const;
 
