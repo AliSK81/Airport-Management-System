@@ -24,7 +24,6 @@ public:
 
     void setBuildDate(const string &buildDate);
 
-
     virtual void out(ostream &os) const {
         os << serial + ' ' + buildDate;
     }

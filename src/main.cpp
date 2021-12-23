@@ -148,10 +148,10 @@ void removeMenu() {
 
 void viewMenu() {
     cout << "\nView Menu:" << endl;
-    cout << "1) View flights by date" << endl;
+    cout << "1) View tasks by date" << endl;
     cout << "2) View people (sorted by birth date)" << endl;
     cout << "3) View workers (sorted by family)" << endl;
-    cout << "4) View flights (sorted by flight serial)" << endl;
+    cout << "4) View tasks (sorted by flight serial)" << endl;
     cout << "5) View vehicle tasks by serial" << endl;
     cout << "6) View workers task by personnel code" << endl;
     cout << "7) View person information by melli code" << endl;

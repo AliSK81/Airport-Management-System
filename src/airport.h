@@ -76,7 +76,6 @@ public:
 
     pilot *getPilot(const string &pCode);
 
-
     host *getHost(const string &pCode);
 
     passenger *getPassenger(const string &id);
@@ -90,9 +89,6 @@ public:
 
     template<typename T>
     static void removeElement(vector<T> &v, T e);
-
-//    template<typename T>
-//    void saveToFile(T obj, string path);
 
     template<typename T>
     void readFile(vector<T *> &v, string path);
