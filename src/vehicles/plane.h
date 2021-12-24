@@ -8,7 +8,7 @@
 class plane : public vehicle {
 private:
     int numOfSeats;
-    vector<flight *> tasks;
+    vector<flight *> flights;
 
 public:
     plane() = default;

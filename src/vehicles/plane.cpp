@@ -10,19 +10,19 @@ void plane::setNumOfSeats(int seats) {
 }
 
 void plane::addTask(flight *flight) {
-    tasks.push_back(flight);
+    flights.push_back(flight);
 }
 
 void plane::removeTask(flight *f) {
-    airport::removeElement(tasks, f);
+    airport::removeElement(flights, f);
 }
 
 const vector<flight *> &plane::getTasks() const {
-    return tasks;
+    return flights;
 }
 
 void plane::printInfo() const {
     vehicle::printInfo();
-    cout << "numOfSeats: " << numOfSeats << ", tasks: " << tasks.size() << endl;
+    cout << "numOfSeats: " << numOfSeats << ", tasks: " << flights.size() << endl;
 }
 

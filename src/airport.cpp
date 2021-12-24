@@ -37,7 +37,7 @@ void airport::addPlane(plane *p) {
     planes.push_back(p);
 }
 
-// remove pilot -> remove pilot tasks(tasks)
+// remove pilot -> remove pilot tasks(flights)
 void airport::removePilot(pilot *p) {
     for (flight *f: p->getTasks()) {
         removeFlight(f);
@@ -45,7 +45,7 @@ void airport::removePilot(pilot *p) {
     removeElement(pilots, p);
 }
 
-// remove host -> remove host from related tasks(tasks)
+// remove host -> remove host from related tasks(flights)
 void airport::removeHost(host *h) {
     for (flight *f: h->getTasks()) {
         f->removeHost(h);
@@ -86,7 +86,7 @@ void airport::removeCarrier(carrier *c) {
     removeElement(carriers, c);
 }
 
-// remove plane -> remove related tasks
+// remove plane -> remove related flights
 void airport::removePlane(plane *p) {
     for (flight *f: p->getTasks()) {
         removeFlight(f);
@@ -193,13 +193,13 @@ void airport::viewWorkers_sortedByFamily() {
 
 void airport::viewFlights_sortedBySerial() {
     if (!flights.empty()) {
-        cout << "tasks:" << endl;
+        cout << "flights:" << endl;
         sort(flights.begin(), flights.end(), flight::compareSerial);
         for (const flight *f: flights) {
             f->printInfo();
         }
     } else {
-        cout << "no tasks" << endl;
+        cout << "no flights" << endl;
     }
 }
 
@@ -271,19 +271,19 @@ void airport::removeElement(vector<T> &v, T e) {
 
 template<typename T>
 void airport::readFile(vector<T *> &v, string path) {
-    ifstream file;
-    file.open(path, ios::app);
-    if (!file) {
+    ifstream fin;
+    fin.open(path, ios::app);
+    if (!fin) {
         cerr << "Error in opening file" << endl;
         exit(1);
     }
     while (true) {
         T *obj = new T();
-        file >> *obj;
-        if (file.eof()) break;
+        fin >> *obj;
+        if (fin.eof()) break;
         v.push_back(obj);
     }
-    file.close();
+    fin.close();
 }
 
 template<typename T>
@@ -307,7 +307,7 @@ void airport::loadProject() {
     readFile(planes, "planes.txt");
     readFile(carriers, "carriers.txt");
     readFile(tickets, "tickets.txt");
-    readFile(flights, "tasks.txt");
+    readFile(flights, "flights.txt");
 
     loadTasks();
 }
@@ -319,7 +319,7 @@ void airport::saveProject() {
     saveToFile(planes, "planes.txt");
     saveToFile(carriers, "carriers.txt");
     saveToFile(tickets, "tickets.txt");
-    saveToFile(flights, "tasks.txt");
+    saveToFile(flights, "flights.txt");
 
     saveTasks();
 }

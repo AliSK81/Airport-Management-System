@@ -49,7 +49,7 @@ double flight::getTicketsIncome() const {
 }
 
 bool flight::compareSerial(const flight *f1, const flight *f2) {
-    return f1->flightSerial < f2->flightSerial;
+    return f1->flightSerial > f2->flightSerial;
 }
 
 void flight::addHost(host *h) {
